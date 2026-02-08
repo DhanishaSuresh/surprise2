@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Propose Day 💍</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+.page{
+  display:none;
+  text-align:center;
+  padding:25px;
+  animation:fade 1s;
+}
+.page.active{display:block;}
+h1,h2{color:#7a003c;}
+input{
+  padding:12px;
+  font-size:18px;
+  border-radius:20px;
+  border:none;
+  text-align:center;
+  outline:none;
+}
+button{
+  margin:12px;
+  padding:12px 24px;
+  border-radius:30px;
+  border:none;
+  font-size:18px;
+  cursor:pointer;
+  background:white;
+  color:#7a003c;
+  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+.msg{margin-top:20px;font-size:20px;}
+.kiss,.sad{
+  position:absolute;
+  font-size:35px;
+  animation:float 2s forwards;
+}
+@keyframes float{
+  from{opacity:1;transform:translateY(0);}
+  to{opacity:0;transform:translateY(-120px);}
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+.promise-box{
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  margin-top:20px;
+  min-height:80px;
+  font-size:18px;
+  color:#5a0030;
+}
+
+.certificate{
+  background:#fff8f8;
+  padding:25px;
+  border-radius:20px;
+  border:3px solid #c94a7c;
+  max-width:420px;
+}
+
+.fingerprint{
+  margin-top:20px;
+  padding:25px;
+  border:3px dashed #c94a7c;
+  border-radius:15px;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.fingerprint.touched{
+  background:#c94a7c;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1>Who are you to me? 💖</h1>
+  <input id="answer" placeholder="Type your answer">
+  <br><br>
+  <button onclick="checkAnswer()">Submit</button>
+  <div class="msg" id="hint"></div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <h2>Would you like to see my 5 promises? 💌</h2>
+  <button onclick="noPromises()">No</button>
+  <button onclick="yesPromises()">Yes</button>
+  <div class="msg" id="p2msg"></div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <h2>My Promises To You 💍</h2>
+  <div class="promise-box" id="promiseBox">
+    Click the button to begin 💖
+  </div>
+  <button onclick="showPromise()">Show next promise</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <h1>Marriage Certificate 💍</h1>
+  <div class="certificate">
+    <p>
+      As you accepted all my imperfections and abnormalities,<br>
+      I believe only you can handle me with love and patience.
+      <br><br>
+      I wish to be the light of your nights,<br>
+      the calm in your chaos,<br>
+      and the forever you never regret choosing.
+    </p>
+
+    <div class="fingerprint" id="fp" onclick="fingerprint()">
+      👆 Touch here to place your fingerprint
+    </div>
+
+    <div class="msg" id="fpMsg"></div>
+  </div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page" id="p5">
+  <h1>💍 Happy Propose Day My Love 💍</h1>
+  <h2>
+    Yayyy… we are soon getting married ❤️✨
+  </h2>
+  <p style="font-size:18px;color:#5a0030;">
+    This is my promise, my proposal,<br>
+    and my forever — with you.
+  </p>
+</div>
+
+<script>
+let hints=[
+  "Think long term 😉",
+  "Someone permanent 💍",
+  "Future title 😌",
+  "Starts with H... and ends with D"
+];
+let hintIndex=0;
+
+function checkAnswer(){
+  let val=document.getElementById("answer").value.trim().toLowerCase();
+  if(val==="husband"){
+    switchPage("p1","p2");
+  }else{
+    document.getElementById("hint").innerText=hints[hintIndex]||"You know this 😏";
+    hintIndex++;
+  }
+}
+
+function noPromises(){
+  document.getElementById("p2msg").innerText="😢😭";
+  createEmoji("sad","😢");
+}
+
+function yesPromises(){
+  for(let i=0;i<12;i++) createEmoji("kiss","💋");
+  setTimeout(()=>switchPage("p2","p3"),1500);
+}
+
+let promises=[
+  "I promise to choose you, even on difficult days.",
+  "I promise honesty, loyalty, and endless respect.",
+  "I promise to be your safest place.",
+  "I promise to grow with you, not away from you.",
+  "I promise forever — imperfect but true."
+];
+let pIndex=0;
+
+function showPromise(){
+  if(pIndex<promises.length){
+    document.getElementById("promiseBox").innerText=promises[pIndex];
+    pIndex++;
+  }else{
+    switchPage("p3","p4");
+  }
+}
+
+function fingerprint(){
+  let fp=document.getElementById("fp");
+  fp.classList.add("touched");
+  fp.innerText="Fingerprint captured ❤️";
+  document.getElementById("fpMsg").innerText=
+    "Yayyy… we are soon getting married 💍✨";
+
+  setTimeout(()=>switchPage("p4","p5"),2000);
+}
+
+function switchPage(from,to){
+  document.getElementById(from).classList.remove("active");
+  document.getElementById(to).classList.add("active");
+}
+
+function createEmoji(cls,emoji){
+  let e=document.createElement("div");
+  e.className=cls;
+  e.innerText=emoji;
+  e.style.left=Math.random()*80+"%";
+  e.style.bottom="20px";
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),2000);
+}
+</script>
+
+</body>
+</html>
